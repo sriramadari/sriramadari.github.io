@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/packages", "destination": "/index.html" },
+    { "source": "/packages/:path*", "destination": "/index.html" }
+  ]
+}
