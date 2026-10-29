@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.2",
-    "@sriramadari/mcp-devkit": "github:sriramadari/mcp-devkit#v0.1.1",
-    "ai-observer": "github:sriramadari/ai-observer#v0.2.0",
-    "bullmq-autoqueue": "github:sriramadari/bullmq-autoqueue#v0.3.0",
+    "@sriramadari/mcp-devkit": "^0.1.1",
+    "ai-observer": "^0.2.0",
+    "bullmq-autoqueue": "^0.3.0",
     "bullmq-devkit": "^0.1.0",
-    "node-observe": "github:sriramadari/node-observe#v0.2.0",
+    "node-observe": "^0.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "zod": "^4.6.7"
