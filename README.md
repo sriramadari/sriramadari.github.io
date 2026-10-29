@@ -11,10 +11,6 @@ bullmq-autoqueue, node-observe). The demos import the real packages and run them
 browser; only the network, Redis and the filesystem are simulated. Code is in `src/lab/`,
 one lazily loaded chunk per demo. `vercel.json` rewrites `/packages/*` to the SPA.
 
-Four packages are installed from their GitHub release tags (`github:sriramadari/<pkg>#vX.Y.Z`),
-because the browser-compatible versions are not on npm yet. Once they are published, switch
-each to the npm version, e.g. `npm install ai-observer@^0.2.0`.
-
 ## Run locally
 
 ```bash
@@ -22,22 +18,14 @@ npm install
 npm run dev
 ```
 
-## Push to GitHub
+## Deploy
 
-```bash
-git init
-git add .
-git commit -m "Portfolio v1"
-git branch -M main
-git remote add origin https://github.com/<your-username>/portfolio.git
-git push -u origin main
-```
+Live at https://sriramadari.github.io. `.github/workflows/deploy.yml` builds and publishes to
+GitHub Pages on every push to `main`. Pages has no rewrites, so the workflow copies the app
+shell to each `/packages/*` route and to `404.html`.
 
-## Deploy on Vercel
-
-1. vercel.com/new, import the repo.
-2. Framework preset: Vite (auto detected). Build command `npm run build`, output `dist`.
-3. Deploy. Every push to `main` redeploys.
+It also deploys on Vercel as is: import the repo at vercel.com/new (preset Vite, output `dist`);
+`vercel.json` handles the `/packages/*` rewrites there.
 
 The hero is a terminal (`src/Terminal.tsx`): it types out a short intro once per session, then visitors can run commands; `help` lists them. Its copy (`role`, `intro`, `fit`, `openTo`) is in `src/data.ts`.
 
