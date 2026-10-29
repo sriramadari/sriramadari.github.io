@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import Terminal from "./Terminal";
 import Trace from "./Trace";
 import Palette, { type Command } from "./Palette";
 import { education, jobs, projects, site, stack } from "./data";
@@ -18,7 +19,7 @@ export default function App() {
   const isMac = typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform);
 
   useEffect(() => {
-    document.title = "Sriram Adari, Founding Software Engineer";
+    document.title = "Sriram Adari, AI Engineer";
     // Arriving from the package lab via /#projects: jump to the section once it has rendered.
     if (window.location.hash) document.getElementById(window.location.hash.slice(1))?.scrollIntoView();
   }, []);
@@ -119,27 +120,19 @@ export default function App() {
 
       <main>
         <section id="top" className="hero">
-          <div className="hero-copy">
-            <p className="where muted">
-              {site.role}, {site.location}
-            </p>
-            <h1>{site.name}</h1>
-            <p className="intro">{site.intro}</p>
-            <p className="open">
-              <i aria-hidden="true" />
-              {site.openTo}
-            </p>
-            <ul className="stack" aria-label="Stack">
-              {stack.map((s) => (
-                <li key={s}>{s}</li>
-              ))}
-            </ul>
-          </div>
-          <Trace />
+          <Terminal onTheme={() => setTheme((t) => (t === "dark" ? "light" : "dark"))} go={go} />
+          <ul className="stack" aria-label="Stack">
+            {stack.map((s) => (
+              <li key={s}>{s}</li>
+            ))}
+          </ul>
         </section>
 
         <section id="work" className="block">
           <h2>Work</h2>
+          <div className="work-trace">
+            <Trace />
+          </div>
           <ol className="jobs">
             {jobs.map((j) => (
               <li key={j.company} className="job">

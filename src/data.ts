@@ -3,10 +3,17 @@
 
 export const site = {
   name: "Sriram Adari",
-  role: "Founding Software Engineer at ProPeers",
+  role: "AI engineer, backend and LLM tooling",
   location: "Visakhapatnam, India",
+  // Hero copy is about what I build, not any one employer. Work history lives in `jobs`.
   intro:
-    "I own features end to end across backend, web, mobile and admin as the first engineering hire at ProPeers, an ed-tech platform used by 500k+ people. On the side I build open source tooling for MCP servers, LLM apps and Node.js observability.",
+    "I build the layer that gets LLM features into production: MCP servers and the tools to test them, one client for OpenAI, Anthropic and Gemini with retries, caching and cost tracking, and the queues and observability that keep it all running. Five of those tools are open source on npm, each with a live demo.",
+  // Why this fits Forward Deployed and Applied AI roles. Shown as `cat fit.md` in the hero.
+  fit: [
+    "Take an AI idea from prototype to production: retrieval, tool calling over MCP, prompt versioning, cost and latency tracking.",
+    "Own the full path: APIs, web and mobile clients, queues, caching, monitoring, and the fix when it breaks.",
+    "Build tools other engineers can pick up: typed, tested, documented, and demoable in a browser.",
+  ],
   openTo: "Open to Applied AI Engineer and Forward Deployed Engineer roles, remote or hybrid.",
   email: "sriramadari.dev@gmail.com",
   github: "https://github.com/sriramadari",
