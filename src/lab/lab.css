@@ -182,7 +182,7 @@
   gap: 16px 24px;
 }
 .real-note {
-  margin: 18px 0 0;
+  margin: 0 0 18px;
   padding: 12px 14px;
   border-left: 3px solid var(--c);
   background: color-mix(in srgb, var(--c) 8%, transparent);
@@ -218,6 +218,130 @@
   font-size: 0.75rem;
   padding: 3px 9px;
   cursor: pointer;
+}
+
+/* Page tabs */
+.page-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 20px;
+}
+.page-tabs button {
+  font: inherit;
+  font-size: 0.95rem;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: 8px 14px;
+  color: var(--muted);
+  cursor: pointer;
+}
+.page-tabs button:hover {
+  color: var(--text);
+}
+.page-tabs button[aria-selected="true"] {
+  color: var(--text);
+  border-bottom-color: var(--c);
+}
+
+/* What it does */
+.about {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  max-width: 900px;
+  align-items: flex-start;
+}
+.about section {
+  width: 100%;
+}
+.about h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 12px;
+}
+.about-summary {
+  font-size: 1.3rem;
+  line-height: 1.45;
+  margin: 8px 0 0;
+  max-width: 50ch;
+}
+.about-prose {
+  margin: 0;
+  max-width: 68ch;
+}
+.feature-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.feature-grid li {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--c);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.feature-grid h3 {
+  font-size: 1rem;
+  margin: 0 0 6px;
+}
+.feature-grid p {
+  margin: 0;
+  font-size: 0.93rem;
+}
+.helps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.helps li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: stretch;
+}
+.helps p {
+  margin: 4px 0 0;
+  font-size: 0.93rem;
+}
+.helps-before,
+.helps-after {
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+.helps-before {
+  background: color-mix(in srgb, var(--rose) 8%, transparent);
+}
+.helps-before span {
+  color: var(--rose);
+}
+.helps-after {
+  background: color-mix(in srgb, var(--teal) 10%, transparent);
+}
+.helps-after span {
+  color: var(--teal);
+}
+.helps-arrow {
+  align-self: center;
+  color: var(--muted);
+}
+.fit {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.points.not li::marker {
+  color: var(--rose);
 }
 
 /* Grid of panels */
@@ -1079,6 +1203,8 @@ details summary {
 }
 @media (max-width: 760px) {
   .demo-grid,
+  .feature-grid,
+  .fit,
   .pkg-grid,
   .call-grid,
   .req-detail,
@@ -1105,6 +1231,13 @@ details summary {
     margin-left: 0;
   }
   .hist .bar-col {
+    display: none;
+  }
+  .helps li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+  .helps-arrow {
     display: none;
   }
   .table {

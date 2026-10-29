@@ -1,6 +1,8 @@
-import { lazy, Suspense, useEffect, type ComponentType } from "react";
+import { lazy, Suspense, useEffect, useState, type ComponentType } from "react";
 import { Link } from "../router";
 import { useTheme } from "../theme";
+import About from "./About";
+import { explainers } from "./explainers";
 import { bySlug, packages, type PackageInfo } from "./packages";
 import { CopyCommand } from "./ui";
 import "./lab.css";
@@ -93,6 +95,7 @@ function Overview() {
               <Link className="btn" href={`/packages/${p.slug}`}>
                 Open live demo
               </Link>
+              <Link href={`/packages/${p.slug}#about`}>What it does</Link>
               <a href={p.npm} target="_blank" rel="noreferrer">
                 npm
               </a>
@@ -107,8 +110,24 @@ function Overview() {
   );
 }
 
+type View = "demo" | "about";
+const viewFromHash = (): View => (window.location.hash === "#about" ? "about" : "demo");
+
 function DemoPage({ pkg }: { pkg: PackageInfo }) {
   const Demo = DEMOS[pkg.slug];
+  // The tab lives in the URL hash so /packages/<name>#about can be shared.
+  const [view, setView] = useState<View>(viewFromHash);
+  useEffect(() => {
+    const sync = () => setView(viewFromHash());
+    sync();
+    window.addEventListener("hashchange", sync);
+    return () => window.removeEventListener("hashchange", sync);
+  }, [pkg.slug]);
+  const show = (v: View) => {
+    window.history.replaceState(null, "", window.location.pathname + (v === "about" ? "#about" : ""));
+    setView(v);
+  };
+
   return (
     <article className={`demo-page c-${pkg.color}`}>
       <header className="demo-head">
@@ -128,13 +147,27 @@ function DemoPage({ pkg }: { pkg: PackageInfo }) {
             </a>
           </span>
         </div>
-        <p className="real-note">
-          <b>What's real here.</b> {pkg.realNote}
-        </p>
       </header>
-      <Suspense fallback={<p className="muted mono loading">loading {pkg.npmName}…</p>}>
-        <Demo />
-      </Suspense>
+      <div className="page-tabs" role="tablist" aria-label={`${pkg.name} views`}>
+        <button role="tab" aria-selected={view === "demo"} onClick={() => show("demo")}>
+          Live demo
+        </button>
+        <button role="tab" aria-selected={view === "about"} onClick={() => show("about")}>
+          What it does
+        </button>
+      </div>
+      {view === "about" ? (
+        <About e={explainers[pkg.slug]} onTryIt={() => show("demo")} />
+      ) : (
+        <>
+          <p className="real-note">
+            <b>What's real here.</b> {pkg.realNote}
+          </p>
+          <Suspense fallback={<p className="muted mono loading">loading {pkg.npmName}…</p>}>
+            <Demo />
+          </Suspense>
+        </>
+      )}
     </article>
   );
 }
