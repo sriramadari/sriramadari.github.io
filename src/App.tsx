@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Terminal from "./Terminal";
 import Trace from "./Trace";
+import Tree from "./Tree";
+import { metrics } from "./aboutTree";
 import Palette, { type Command } from "./Palette";
 import { contributions, education, jobs, projects, site, stack } from "./data";
 import { Link, navigate } from "./router";
 import { useTheme } from "./theme";
 
-const SECTIONS = ["top", "work", "projects", "oss", "resume", "contact"] as const;
+const SECTIONS = ["top", "about", "work", "projects", "oss", "resume", "contact"] as const;
 
 function isTyping(el: EventTarget | null) {
   return el instanceof HTMLElement && (el.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(el.tagName));
@@ -35,6 +37,7 @@ export default function App() {
 
   const commands: Command[] = useMemo(() => {
     const list: Command[] = [
+      { id: "about", label: "Explore the about tree", run: () => go("about") },
       { id: "work", label: "Go to work", hint: "j / k", run: () => go("work") },
       { id: "projects", label: "Go to projects", run: () => go("projects") },
       { id: "oss", label: "Go to open source", run: () => go("oss") },
@@ -107,6 +110,7 @@ export default function App() {
           sriram<span className="muted">.dev</span>
         </a>
         <div className="nav-links">
+          <a href="#about">About</a>
           <a href="#work" className="hide-narrow">Work</a>
           <a href="#projects">Projects</a>
           <a href="#oss" className="hide-narrow">Open source</a>
@@ -130,8 +134,22 @@ export default function App() {
           </ul>
         </section>
 
+        <section id="about" className="block">
+          <h2 data-n="01">About, as a tree</h2>
+          <p className="section-note muted">Everything below the root is something I built, shipped or fixed. Open a branch to see how it works.</p>
+          <ul className="metrics" aria-label="Numbers">
+            {metrics.map((m) => (
+              <li key={m.label}>
+                <b className="mono">{m.value}</b>
+                <span>{m.label}</span>
+              </li>
+            ))}
+          </ul>
+          <Tree />
+        </section>
+
         <section id="work" className="block">
-          <h2>Work</h2>
+          <h2 data-n="02">Work</h2>
           <div className="work-trace">
             <Trace />
           </div>
@@ -174,7 +192,7 @@ export default function App() {
         </section>
 
         <section id="projects" className="block">
-          <h2>Projects</h2>
+          <h2 data-n="03">Projects</h2>
           <p className="section-note muted">Open source tools I built because I needed them at work first, and a few things I shipped along the way.</p>
           <Link href="/packages" className="lab-callout">
             <span className="mono">package lab</span>
@@ -227,7 +245,7 @@ export default function App() {
 
         {contributions.length > 0 && (
           <section id="oss" className="block">
-            <h2>Open source</h2>
+            <h2 data-n="04">Open source</h2>
             <p className="section-note muted">Fixes merged upstream into projects I use.</p>
             <ul className="projects oss">
               {contributions.map((c) => (
@@ -260,7 +278,7 @@ export default function App() {
 
         {site.resume && (
           <section id="resume" className="block">
-            <h2>Resume</h2>
+            <h2 data-n="05">Resume</h2>
             <p className="section-note muted">The one page version. Open it in a new tab or grab the PDF.</p>
             <div className="resume-actions">
               <a className="btn" href={site.resume} download="Sriram_Adari_Resume.pdf">
@@ -283,7 +301,7 @@ export default function App() {
         )}
 
         <section id="contact" className="block contact">
-          <h2>Building something with LLMs, queues, or both?</h2>
+          <h2 data-n="06">Building something with LLMs, queues, or both?</h2>
           <p className="muted">
             I like hard backend problems and small teams that ship. Tell me what you are working on.
           </p>

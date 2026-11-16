@@ -94,7 +94,7 @@ const SCRIPT: Step[] = [
   { cmd: "ls ~/builds", out: <Builds /> },
 ];
 
-const COMMANDS = ["help", "whoami", "about", "ls", "fit", "stack", "demo", "explain", "cd", "open", "contact", "theme", "clear"];
+const COMMANDS = ["help", "tree", "whoami", "about", "ls", "fit", "stack", "demo", "explain", "cd", "open", "contact", "theme", "clear"];
 const OPEN_TARGETS: Record<string, string> = {
   github: site.github,
   linkedin: site.linkedin,
@@ -176,12 +176,13 @@ export default function Terminal({ onTheme, go }: { onTheme: () => void; go: (id
           line,
           <div className="t-help">
             {[
+              ["tree", "explore me as a node tree"],
               ["ls", "what I've built"],
               ["demo <package>", "open a package's live demo"],
               ["explain <package>", "what a package does and how it helps"],
               ["fit", "why I fit AI and FDE roles"],
               ["stack", "languages and tools"],
-              ["cd work | projects | oss | contact", "jump to a section"],
+              ["cd about | work | projects | oss", "jump to a section"],
               ["open github | linkedin | resume", "open a profile"],
               ["contact", "how to reach me"],
               ["theme", "switch light / dark"],
@@ -203,6 +204,9 @@ export default function Terminal({ onTheme, go }: { onTheme: () => void; go: (id
         return print(line, scriptOut("cat about.md"));
       case "ls":
         return print(line, <Builds />);
+      case "tree":
+        go("about");
+        return print(line, <p className="t-dim">opening ~/sriram as a tree ↓</p>);
       case "fit":
         return print(line, scriptOut("cat fit.md"));
       case "stack":
@@ -221,11 +225,11 @@ export default function Terminal({ onTheme, go }: { onTheme: () => void; go: (id
         navigate(`/packages/${pkg.slug}${cmd === "explain" ? "#about" : ""}`);
         return;
       case "cd":
-        if (["work", "projects", "oss", "resume", "contact"].includes(arg)) {
+        if (["about", "work", "projects", "oss", "resume", "contact"].includes(arg)) {
           go(arg);
           return print(line, null);
         }
-        return print(line, <p className="t-err">cd: {arg || "~"}: try work, projects, oss, resume or contact</p>);
+        return print(line, <p className="t-err">cd: {arg || "~"}: try about, work, projects, oss, resume or contact</p>);
       case "open": {
         const url = OPEN_TARGETS[arg];
         if (!url) return print(line, <p className="t-err">open: try {Object.keys(OPEN_TARGETS).join(", ")}</p>);
@@ -271,7 +275,7 @@ export default function Terminal({ onTheme, go }: { onTheme: () => void; go: (id
       return;
     }
     const arg = rest.join(" ");
-    const pool = cmd === "open" ? Object.keys(OPEN_TARGETS) : cmd === "cd" ? ["work", "projects", "oss", "resume", "contact"] : packages.map((p) => p.name);
+    const pool = cmd === "open" ? Object.keys(OPEN_TARGETS) : cmd === "cd" ? ["about", "work", "projects", "oss", "resume", "contact"] : packages.map((p) => p.name);
     const hit = pool.filter((p) => p.startsWith(arg));
     if (hit.length === 1) setInput(`${cmd} ${hit[0]}`);
   };
