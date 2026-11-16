@@ -181,7 +181,7 @@ export default function Terminal({ onTheme, go }: { onTheme: () => void; go: (id
               ["explain <package>", "what a package does and how it helps"],
               ["fit", "why I fit AI and FDE roles"],
               ["stack", "languages and tools"],
-              ["cd work | projects | contact", "jump to a section"],
+              ["cd work | projects | oss | contact", "jump to a section"],
               ["open github | linkedin | resume", "open a profile"],
               ["contact", "how to reach me"],
               ["theme", "switch light / dark"],
@@ -221,11 +221,11 @@ export default function Terminal({ onTheme, go }: { onTheme: () => void; go: (id
         navigate(`/packages/${pkg.slug}${cmd === "explain" ? "#about" : ""}`);
         return;
       case "cd":
-        if (["work", "projects", "resume", "contact"].includes(arg)) {
+        if (["work", "projects", "oss", "resume", "contact"].includes(arg)) {
           go(arg);
           return print(line, null);
         }
-        return print(line, <p className="t-err">cd: {arg || "~"}: try work, projects, resume or contact</p>);
+        return print(line, <p className="t-err">cd: {arg || "~"}: try work, projects, oss, resume or contact</p>);
       case "open": {
         const url = OPEN_TARGETS[arg];
         if (!url) return print(line, <p className="t-err">open: try {Object.keys(OPEN_TARGETS).join(", ")}</p>);
@@ -271,7 +271,7 @@ export default function Terminal({ onTheme, go }: { onTheme: () => void; go: (id
       return;
     }
     const arg = rest.join(" ");
-    const pool = cmd === "open" ? Object.keys(OPEN_TARGETS) : cmd === "cd" ? ["work", "projects", "resume", "contact"] : packages.map((p) => p.name);
+    const pool = cmd === "open" ? Object.keys(OPEN_TARGETS) : cmd === "cd" ? ["work", "projects", "oss", "resume", "contact"] : packages.map((p) => p.name);
     const hit = pool.filter((p) => p.startsWith(arg));
     if (hit.length === 1) setInput(`${cmd} ${hit[0]}`);
   };

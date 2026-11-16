@@ -271,6 +271,47 @@ export const projects: Project[] = [
   },
 ];
 
+export type Contribution = {
+  repo: string;
+  repoUrl: string;
+  /** One line on what the project is. */
+  about: string;
+  pr: number;
+  title: string;
+  summary: string;
+  area: string[];
+  merged: string;
+  url: string;
+};
+
+// Merged pull requests to other people's projects. Newest first.
+export const contributions: Contribution[] = [
+  {
+    repo: "twentyhq/twenty",
+    repoUrl: "https://github.com/twentyhq/twenty",
+    about: "Open source CRM, 60k+ stars",
+    pr: 30516,
+    title: "fix(ai): skip non-matching wildcard children in extract_json_paths",
+    summary:
+      "The AI chat's JSON path tool failed a whole wildcard query when one child lacked the key, so the agent got nothing back on most workflow runs. Now it skips non-matching children, as JSONPath does, and keeps the error when nothing matches.",
+    area: ["TypeScript", "NestJS", "AI agents"],
+    merged: "Nov 2026",
+    url: "https://github.com/twentyhq/twenty/pull/30516",
+  },
+  {
+    repo: "twentyhq/twenty",
+    repoUrl: "https://github.com/twentyhq/twenty",
+    about: "Open source CRM, 60k+ stars",
+    pr: 29261,
+    title: "fix(workflow): describe both day of month and day of week in cron descriptions",
+    summary:
+      "Cron schedules that set both day fields were described as running less often than they do. The workflow trigger now describes both days, matching how cron actually runs the schedule.",
+    area: ["TypeScript", "React", "Workflows"],
+    merged: "Nov 2026",
+    url: "https://github.com/twentyhq/twenty/pull/29261",
+  },
+];
+
 export const stack = [
   "TypeScript",
   "Node.js",

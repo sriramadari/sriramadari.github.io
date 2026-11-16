@@ -933,3 +933,24 @@ main {
     gap: 6px 12px;
   }
 }
+
+/* Open source: every card is equal, no featured first card. */
+.projects.oss .project:first-child {
+  grid-column: auto;
+  background: transparent;
+}
+.projects.oss .project:first-child h3,
+.projects.oss .project h3 {
+  font-size: 1.02rem;
+  line-height: 1.4;
+}
+.oss-repo {
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-decoration: none;
+}
+.oss-repo:hover {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

@@ -2,11 +2,11 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Terminal from "./Terminal";
 import Trace from "./Trace";
 import Palette, { type Command } from "./Palette";
-import { education, jobs, projects, site, stack } from "./data";
+import { contributions, education, jobs, projects, site, stack } from "./data";
 import { Link, navigate } from "./router";
 import { useTheme } from "./theme";
 
-const SECTIONS = ["top", "work", "projects", "resume", "contact"] as const;
+const SECTIONS = ["top", "work", "projects", "oss", "resume", "contact"] as const;
 
 function isTyping(el: EventTarget | null) {
   return el instanceof HTMLElement && (el.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(el.tagName));
@@ -37,6 +37,7 @@ export default function App() {
     const list: Command[] = [
       { id: "work", label: "Go to work", hint: "j / k", run: () => go("work") },
       { id: "projects", label: "Go to projects", run: () => go("projects") },
+      { id: "oss", label: "Go to open source", run: () => go("oss") },
       { id: "packages", label: "Open the package lab (live npm demos)", run: () => navigate("/packages") },
       { id: "resume", label: "Go to resume", run: () => go("resume") },
       { id: "contact", label: "Go to contact", run: () => go("contact") },
@@ -108,6 +109,7 @@ export default function App() {
         <div className="nav-links">
           <a href="#work" className="hide-narrow">Work</a>
           <a href="#projects">Projects</a>
+          <a href="#oss" className="hide-narrow">Open source</a>
           <Link href="/packages">Packages</Link>
           {site.resume && <a href="#resume">Resume</a>}
           <a href="#contact">Contact</a>
@@ -222,6 +224,39 @@ export default function App() {
             ))}
           </ul>
         </section>
+
+        {contributions.length > 0 && (
+          <section id="oss" className="block">
+            <h2>Open source</h2>
+            <p className="section-note muted">Fixes merged upstream into projects I use.</p>
+            <ul className="projects oss">
+              {contributions.map((c) => (
+                <li key={c.url} className="project">
+                  <div className="project-top">
+                    <a href={c.repoUrl} target="_blank" rel="noreferrer" className="oss-repo mono">
+                      {c.repo}
+                    </a>
+                    <span className="pill mono">merged · {c.merged}</span>
+                  </div>
+                  <h3>{c.title}</h3>
+                  <p>{c.summary}</p>
+                  <div className="project-foot">
+                    <ul className="tags">
+                      {c.area.map((t) => (
+                        <li key={t}>{t}</li>
+                      ))}
+                    </ul>
+                    <span className="links">
+                      <a href={c.url} target="_blank" rel="noreferrer">
+                        PR #{c.pr}
+                      </a>
+                    </span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {site.resume && (
           <section id="resume" className="block">
